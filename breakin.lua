@@ -62,6 +62,18 @@ function input()
         end
     end
 
+    -- Deactived ball
+    if ball.deactive then
+        ball.x = player.x+(player.width/2)-1.5
+        ball.y = player.y-5
+      
+        if btn(5) then
+            ball.speed.x = math.floor(math.random())*2-1
+            ball.speed.y = -1.5
+            ball.deactive = false
+        end
+    end
+
     player.speed.x = sx
     player.speed.max = smax
 end
