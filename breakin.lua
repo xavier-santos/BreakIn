@@ -7,7 +7,7 @@ function init()
     -- Player
     -- TODO: Change to paddle
     player = {
-        x = (240 /2 ) - 12,
+        x = (240 / 2) - 12,
         y = 120,
         width = 24,
         height = 4,
@@ -32,6 +32,25 @@ function init()
             max = 1.5
         }
     }
+
+    bricks = {}
+    brick_count_height = 12
+    brick_count_width = 19
+
+    -- create bricks
+    for i = 0, brick_count_height, 1 do
+        for j = 0, brick_count_width, 1 do
+            local brick = {
+                x = 10 + j * 11,
+                y = 10 + i * 5,
+                width = 10,
+                height = 4,
+                color = i + 1
+            }
+
+            table.insert(bricks, brick)
+        end
+   end
 end
 
 init()
@@ -64,8 +83,8 @@ function input()
 
     -- Deactived ball
     if ball.deactive then
-        ball.x = player.x+(player.width/2)-1.5
-        ball.y = player.y-5
+        ball.x = player.x + (player.width/2) - 1.5
+        ball.y = player.y - 5
       
         if btn(5) then
             ball.speed.x = math.floor(math.random())*2-1
@@ -134,10 +153,38 @@ function draw_game_objects()
         ball.height,
         ball.color
     )
+
+    -- draw bricks
+    for i, brick in pairs(bricks) do
+        rect(
+            bricks[i].x,
+            bricks[i].y,
+            bricks[i].width,
+            bricks[i].height,
+            bricks[i].color
+        )
+    end
 end
 
 function collisions()
+    ball_wall_collision()
     ball_ground_collision()
+end
+
+function ball_wall_collision()
+    if ball.y < 0 then
+        -- Top
+        ball.speed.y = -ball.speed.y
+
+    elseif ball.x < 0 then
+        -- Left
+        ball.speed.x = -ball.speed.x
+
+    elseif ball.x > 240 - ball.width then
+        -- Right
+        ball.speed.x = -ball.speed.x
+
+    end
 end
 
 function ball_ground_collision()
