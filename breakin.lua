@@ -3,10 +3,17 @@
 -- desc:   Game developed for Retro Jam 2021
 -- script: lua
 
+require "collisions"
+
 function init()
     -- Player
-    -- TODO: Change to paddle
     player = {
+        score = 0,
+        lives = 3
+    }
+
+    -- Paddle
+    paddle = {
         x = (240 / 2) - 12,
         y = 120,
         width = 24,
@@ -20,8 +27,8 @@ function init()
 
     -- Ball
     ball = {
-        x = player.x + (player.width / 2) - 1.5,
-        y = player.y - 5,
+        x = paddle.x + (paddle.width / 2) - 1.5,
+        y = paddle.y - 5,
         width = 3,
         height = 3,
         color = 2,
@@ -38,8 +45,8 @@ function init()
     brick_count_height = 1
     brick_count_width = 19
     
-    for i = 0, brick_count_height, 1 do
-        for j = 0, brick_count_width, 1 do
+    for i = 0, brick_count_height do
+        for j = 0, brick_count_width do
             local brick = {
                 x = 10 + j * 11,
                 y = 10 + i * 5,
@@ -56,12 +63,12 @@ end
 init()
 
 function input()
-    local sx = player.speed.x
-    local smax = player.speed.max
+    local sx = paddle.speed.x
+    local smax = paddle.speed.max
 
     -- Move to left
     if btn(2) then
-        if sx>-smax then
+        if sx > -smax then
             sx = sx - 2
 
         else
@@ -83,8 +90,8 @@ function input()
 
     -- Deactived ball
     if ball.deactive then
-        ball.x = player.x + (player.width/2) - 1.5
-        ball.y = player.y - 5
+        ball.x = paddle.x + (paddle.width/2) - 1.5
+        ball.y = paddle.y - 5
       
         if btn(5) then
             ball.speed.x = math.floor(math.random())*2-1
@@ -93,19 +100,19 @@ function input()
         end
     end
 
-    player.speed.x = sx
-    player.speed.max = smax
+    paddle.speed.x = sx
+    paddle.speed.max = smax
 end
 
 function update()
-    local px = player.x
-    local psx = player.speed.x
-    local smax = player.speed.max
+    local px = paddle.x
+    local psx = paddle.speed.x
+    local smax = paddle.speed.max
 
-    -- Update player position
+    -- Update paddle position
     px = px + psx
 
-    -- Reduce player speed
+    -- Reduce paddle speed
     if psx ~= 0 then
         if psx > 0 then
             psx=psx-1
@@ -125,9 +132,9 @@ function update()
         ball.speed.x = ball.speed.max
     end
 
-    player.x = px
-    player.speed.x = psx
-    player.speed.max = smax
+    paddle.x = px
+    paddle.speed.x = psx
+    paddle.speed.max = smax
 end
 
 function draw()
@@ -138,12 +145,21 @@ end
 function draw_game_objects()
     -- Draw paddle
     rect(
-        player.x,
-        player.y,
-        player.width,
-        player.height,
-        player.color
+        paddle.x,
+        paddle.y,
+        paddle.width,
+        paddle.height,
+        paddle.color
     )
+
+    -- TODO: This will be used to draw the rotated paddle
+    x = 50
+    y = 50
+    w = 4
+    h = 6 * w 
+
+    tri(x, y, x + w, y, x + 2, y + h, 1)
+    tri(x + w, y, x + w + 2, y + h, x + 2, y + h, 1)
 
     -- Draw ball
     rect(
@@ -164,110 +180,6 @@ function draw_game_objects()
             bricks[i].color
         )
     end
-end
-
-function collisions()
-    player_wall_collision()
-    ball_wall_collision()
-    ball_ground_collision()
-    player_ball_collision()
-    ball_brick_collisions()
-end
-
-function player_wall_collision()
-    if player.x < 0 then
-        player.x = 0
-
-    elseif player.x + player.width > 240 then
-        player.x = 240 - player.width
-
-    end
-end
-
-function ball_wall_collision()
-    if ball.y < 0 then
-        -- Top
-        ball.speed.y = -ball.speed.y
-
-    elseif ball.x < 0 then
-        -- Left
-        ball.speed.x = -ball.speed.x
-
-    elseif ball.x > 240 - ball.width then
-        -- Right
-        ball.speed.x = -ball.speed.x
-
-    end
-end
-
-function ball_ground_collision()
-    if ball.y > 136 - ball.width then
-        -- Reset ball
-        ball.deactive = true
-
-        -- Loss a life
-        if lives > 0 then
-            lives = lives - 1
-
-        elseif lives == 0 then
-            game_over()
-
-        end
-    end
-end
-
-function player_ball_collision()
-    if collide(player, ball) then
-        ball.speed.y = -ball.speed.y
-        ball.speed.x = ball.speed.x + 0.3 * player.speed.x
-    end
-end
-
-function ball_brick_collisions()
-    for i, brick in pairs(bricks) do
-        -- Get parameters
-        local x = bricks[i].x
-        local y = bricks[i].y
-        local w = bricks[i].width
-        local h = bricks[i].height
-       
-        -- Check collision
-        if collide(ball, bricks[i]) then
-            -- Collide left or right side
-            if y < ball.y and ball.y < y + h and ball.x < x or x + w < ball.x then
-                ball.speed.x = -ball.speed.x
-            end
-
-            -- Collide top or bottom side		
-            if ball.y < y or ball.y > y and x < ball.x and ball.x < x + w then
-                ball.speed.y = -ball.speed.y
-            end
-
-            table.remove(bricks, i)
-            print(i)
-         end
-    end
-end
-
-function collide(a,b)
-    -- Get parameters from a and b
-    local ax = a.x
-    local ay = a.y
-    local aw = a.width
-    local ah = a.height
-    local bx = b.x
-    local by = b.y
-    local bw = b.width
-    local bh = b.height
-   
-    -- Check collision
-    if ax < bx + bw and ax + aw > bx and ay < by + bh and ah + ay > by then
-        -- Collision
-        return true
-    end
-
-    -- No collision
-    return false
 end
 
 function TIC()
