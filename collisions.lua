@@ -51,7 +51,7 @@ end
 function paddle_ball_collision()
     if collide(paddle, ball) then
         ball.speed.y = -ball.speed.y
-        ball.speed.x = ball.speed.x + 0.3 * paddle.speed.x
+        -- ball.speed.x = ball.speed.x + 0.3 * paddle.speed.x
     end
 end
 
@@ -80,7 +80,7 @@ function ball_brick_collisions()
     end
 end
 
-function collide(a,b)
+function collide(a, b)
     -- Get parameters from a and b
     local ax = a.x
     local ay = a.y
@@ -93,4 +93,68 @@ function collide(a,b)
    
     -- Check collision
     return ax < bx + bw and ax + aw > bx and ay < by + bh and ah + ay > by
+end
+
+function on_segment(x0, y0, x1, y1, x2, y2)
+    return 
+        x1 <= math.max(x0, x2) and 
+        x1 >= math.min(x0, x2) and 
+        y1 <= math.max(y0, y2) and
+        y1 >= math.min(y0, y2)
+end
+
+function orientation(x0, y0, x1, y1, x2, y2)
+    -- To find the orientation of an ordered triplet (p,q,r) 
+    -- 0 : Colinear points 
+    -- 1 : Clockwise points 
+    -- 2 : Counterclockwise 
+
+    val = (y1 - y0) * (x2 - x1) - (x1 - x0) * (y2 - y1)
+
+    if val > 0 then
+        return 1  -- Clockwise orientation
+
+    elseif val < 0 then
+        return 2  -- Counter-clockwise orientation
+
+    else
+        return 0  -- Colinear orientation
+
+    end
+end
+
+function line_intersection(x0, y0, x1, y1, x2, y2, x3, y3)
+    -- Find the 4 orientations required for the general and special cases 
+    o1 = orientation(x0, y0, x1, y1, x2, y2) 
+    o2 = orientation(x0, y0, x1, y1, x3, y3) 
+    o3 = orientation(x2, y2, x3, y3, x0, y0) 
+    o4 = orientation(x2, y2, x3, y3, x1, y1)
+    
+    -- General case 
+    if o1 ~= o2 and o3 ~= o4 then
+        return true
+    end
+
+    -- p1 , q1 and x2, y1, are colinear and x2, y1, lies on segment p1q1 
+    if o1 == 0 and on_segment(x0, y0, x2, y2, x1, y1) then
+        return true
+    end
+  
+    -- p1, q1 and q2 are colinear and q2 lies on segment p1q1 
+    if o2 == 0 and on_segment(x0, y0, x3, y3, x1, y1) then
+        return true
+    end
+  
+    -- x2, y1 and q2 and p1 are colinear and p1 lies on segment x2, y1,q2 
+    if o3 == 0 and on_segment(x2, y2, x0, y0, x3, y3) then
+        return true
+    end
+  
+    -- x2, y1, q2 and q1 are colinear and q1 lies on segment x2, y1,q2 
+    if o4 == 0 and on_segment(x2, y2, x1, y1, x3, y3) then
+        return true
+    end
+  
+    -- If none of the cases 
+    return False
 end

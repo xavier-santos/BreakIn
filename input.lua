@@ -62,11 +62,14 @@ function input()
         ball.x = paddle.x + (paddle.width/2) - 1.5
         ball.y = paddle.y - 5
       
-        if btn(5) then
+        if btn(6) then
             ball.speed.x = math.floor(math.random())*2-1
             ball.speed.y = -1.5
             ball.deactive = false
         end
+
+    else
+    
     end
 
     paddle.speed.x = sx
