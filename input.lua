@@ -67,9 +67,6 @@ function input()
             ball.speed.y = -1.5
             ball.deactive = false
         end
-
-    else
-    
     end
 
     paddle.speed.x = sx

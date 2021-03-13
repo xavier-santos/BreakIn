@@ -49,9 +49,10 @@ function ball_ground_collision()
 end
 
 function paddle_ball_collision()
-    if collide(paddle, ball) then
+    if border_collide(paddle, ball) then
+        print("collide")
         ball.speed.y = -ball.speed.y
-        -- ball.speed.x = ball.speed.x + 0.3 * paddle.speed.x
+        ball.speed.x = ball.speed.x + 0.3 * paddle.speed.x
     end
 end
 
@@ -95,6 +96,28 @@ function collide(a, b)
     return ax < bx + bw and ax + aw > bx and ay < by + bh and ah + ay > by
 end
 
+function border_collide(a, b)
+    local a1 = {a.x1, a.y1, a.x2, a.y2}
+    local a2 = {a.x1, a.y1, a.x3, a.y3}
+    local a3 = {a.x2, a.y2, a.x4, a.y4}
+    local a4 = {a.x3, a.y3, a.x4, a.y4}
+
+    local b1 = {b.x1, b.y1, b.x2, b.y2}
+    local b2 = {b.x1, b.y1, b.x3, b.y3}
+    local b3 = {b.x2, b.y2, b.x4, b.y4}
+    local b4 = {b.x3, b.y3, b.x4, b.y4}
+
+    for _, l1 in pairs({a1, a2, a3, a4}) do
+        for _, l2 in pairs({b1, b2, b3, b4}) do
+            if line_intersection(l1, l2) then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
 function on_segment(x0, y0, x1, y1, x2, y2)
     return 
         x1 <= math.max(x0, x2) and 
@@ -123,7 +146,17 @@ function orientation(x0, y0, x1, y1, x2, y2)
     end
 end
 
-function line_intersection(x0, y0, x1, y1, x2, y2, x3, y3)
+function line_intersection(l1, l2)
+    local x0 = l1[1]
+    local y0 = l1[2] 
+    local x1 = l1[3] 
+    local y1 = l1[4] 
+    
+    local x2 = l2[1] 
+    local y2 = l2[2] 
+    local x3 = l2[3] 
+    local y3 = l2[4]
+
     -- Find the 4 orientations required for the general and special cases 
     o1 = orientation(x0, y0, x1, y1, x2, y2) 
     o2 = orientation(x0, y0, x1, y1, x3, y3) 
