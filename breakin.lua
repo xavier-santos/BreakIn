@@ -144,22 +144,7 @@ end
 
 function draw_game_objects()
     -- Draw paddle
-    rect(
-        paddle.x,
-        paddle.y,
-        paddle.width,
-        paddle.height,
-        paddle.color
-    )
-
-    -- TODO: This will be used to draw the rotated paddle
-    x = 50
-    y = 50
-    w = 4
-    h = 6 * w 
-
-    tri(x, y, x + w, y, x + 2, y + h, 1)
-    tri(x + w, y, x + w + 2, y + h, x + 2, y + h, 1)
+    draw_paddle()
 
     -- Draw ball
     rect(
@@ -180,6 +165,40 @@ function draw_game_objects()
             bricks[i].color
         )
     end
+end
+
+function draw_paddle()
+    x = 50
+    y = 50
+    h = 2
+    w = 6 * h
+    angle = math.pi / 3
+
+    x1, y1 = rotate(-w, h, angle)
+    x1, y1 = translate(x1, y1, x, y)
+
+    x2, y2 = rotate(-w, -h, angle)
+    x2, y2 = translate(x2, y2, x, y)
+    
+    x3, y3 = rotate(w, h, angle)
+    x3, y3 = translate(x3, y3, x, y)
+
+    x4, y4 = rotate(w, -h, angle)
+    x4, y4 = translate(x4, y4, x, y)
+
+    tri(x1, y1, x2, y2, x3, y3, 1)
+    tri(x2, y2, x3, y3, x4, y4, 1)
+end
+
+function rotate(x, y, angle) 
+    _x = x * math.cos(angle) - y * math.sin(angle)
+    _y = x * math.sin(angle) + y * math.cos(angle)
+
+    return _x, _y
+end
+
+function translate(x, y, w, h)
+    return x + w, y + h
 end
 
 function TIC()
