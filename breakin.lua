@@ -33,11 +33,11 @@ function init()
         }
     }
 
+    -- Bricks
     bricks = {}
     brick_count_height = 12
     brick_count_width = 19
-
-    -- create bricks
+    
     for i = 0, brick_count_height, 1 do
         for j = 0, brick_count_width, 1 do
             local brick = {
@@ -154,7 +154,7 @@ function draw_game_objects()
         ball.color
     )
 
-    -- draw bricks
+    -- Draw bricks
     for i, brick in pairs(bricks) do
         rect(
             bricks[i].x,
@@ -167,8 +167,14 @@ function draw_game_objects()
 end
 
 function collisions()
+    player_wall_collision()
     ball_wall_collision()
     ball_ground_collision()
+    player_ball_collision()
+    ball_brick_collisions()
+end
+
+function player_wall_collision()
 end
 
 function ball_wall_collision()
@@ -203,10 +209,64 @@ function ball_ground_collision()
     end
 end
 
+function player_ball_collision()
+    if collide(player, ball) then
+        ball.speed.y = -ball.speed.y
+        ball.speed.x = ball.speed.x + 0.3 * player.speed.x
+    end
+end
+
+function ball_brick_collisions()
+    for i, brick in pairs(bricks) do
+        -- Get parameters
+        local x = bricks[i].x
+        local y = bricks[i].y
+        local w = bricks[i].width
+        local h = bricks[i].height
+       
+        -- Check collision
+        if collide(ball, bricks[i]) then
+            -- Collide left or right side
+            if y < ball.y and ball.y < y + h and ball.x < x or x + w < ball.x then
+                ball.speed.x = -ball.speed.x
+            end
+
+            -- Collide top or bottom side		
+            if ball.y < y or ball.y > y and x < ball.x and ball.x < x+w then
+                ball.speed.y = -ball.speed.y
+            end
+
+            table.remove(bricks, i)
+         end
+    end
+end
+
+function collide(a,b)
+    -- Get parameters from a and b
+    local ax = a.x
+    local ay = a.y
+    local aw = a.width
+    local ah = a.height
+    local bx = b.x
+    local by = b.y
+    local bw = b.width
+    local bh = b.height
+   
+    -- Check collision
+    if ax < bx + bw and ax + aw > bx and ay < by + bh and ah + ay > by then
+        -- Collision
+        return true
+    end
+
+    -- No collision
+    return false
+end
+
 function TIC()
     cls()
     input()
     update()
+    collisions()
     draw()
  end
 
