@@ -5,10 +5,12 @@
 
 require "collisions"
 require "graphics"
+require "input"
 
 function init()
     -- Player
     player = {
+        -- TODO: Include selected character
         score = 0,
         lives = 3
     }
@@ -23,6 +25,7 @@ function init()
         angle = 0,
         speed = {
             x = 0,
+            y = 0,
             max = 4
         }
     }
@@ -64,73 +67,34 @@ end
 
 init()
 
-function input()
-    local sx = paddle.speed.x
-    local smax = paddle.speed.max
-
-    -- Move to left
-    if btn(2) then
-        if sx > -smax then
-            sx = sx - 2
-
-        else
-            sx = -smax
-
-        end	 
-    end
-
-    -- Move to right
-    if btn(3) then
-        if sx < smax then
-            sx = sx+2
-            
-        else
-            sx = smax
-
-        end
-    end
-
-    -- Anti-clockwise rotate
-    if btn(4) then
-        paddle.angle = paddle.angle + math.pi / 16
-    end
-
-    -- Clockwise rotate
-    if btn(5) then
-        paddle.angle = paddle.angle - math.pi / 16
-    end
-
-    -- Deactived ball
-    if ball.deactive then
-        ball.x = paddle.x + (paddle.width/2) - 1.5
-        ball.y = paddle.y - 5
-      
-        if btn(5) then
-            ball.speed.x = math.floor(math.random())*2-1
-            ball.speed.y = -1.5
-            ball.deactive = false
-        end
-    end
-
-    paddle.speed.x = sx
-    paddle.speed.max = smax
-end
-
 function update()
     local px = paddle.x
+    local py = paddle.y
     local psx = paddle.speed.x
+    local psy = paddle.speed.y
     local smax = paddle.speed.max
 
     -- Update paddle position
     px = px + psx
+    py = py + psy
 
     -- Reduce paddle speed
     if psx ~= 0 then
         if psx > 0 then
-            psx=psx-1
+            psx = psx - 1
 
         else
-            psx=psx+1
+            psx = psx + 1
+
+        end
+    end
+
+    if psy ~= 0 then
+        if psy > 0 then
+            psy = psy - 1
+
+        else
+            psy = psy + 1
 
         end
     end
@@ -144,8 +108,14 @@ function update()
         ball.speed.x = ball.speed.max
     end
 
+    if ball.speed.y > ball.speed.max then
+        ball.speed.y = ball.speed.max
+    end
+
     paddle.x = px
+    paddle.y = py
     paddle.speed.x = psx
+    paddle.speed.y = psy
     paddle.speed.max = smax
 end
 
