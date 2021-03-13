@@ -33,15 +33,15 @@ function ball_wall_collision()
 end
 
 function ball_ground_collision()
-    if ball.y > 136 - ball.width then
+    if ball.y + ball.height > 136 then
         -- Reset ball
         ball.deactive = true
 
         -- Loss a life
-        if lives > 0 then
-            lives = lives - 1
+        if player.lives > 0 then
+            player.lives = player.lives - 1
 
-        elseif lives == 0 then
+        elseif player.lives == 0 then
             game_over()
 
         end
@@ -58,10 +58,10 @@ end
 function ball_brick_collisions()
     for i, brick in pairs(bricks) do
         -- Get parameters
-        local x = bricks[i].x
-        local y = bricks[i].y
-        local w = bricks[i].width
-        local h = bricks[i].height
+        local x = brick.x
+        local y = brick.y
+        local w = brick.width
+        local h = brick.height
        
         -- Check collision
         if collide(ball, bricks[i]) then
@@ -92,11 +92,5 @@ function collide(a,b)
     local bh = b.height
    
     -- Check collision
-    if ax < bx + bw and ax + aw > bx and ay < by + bh and ah + ay > by then
-        -- Collision
-        return true
-    end
-
-    -- No collision
-    return false
+    return ax < bx + bw and ax + aw > bx and ay < by + bh and ah + ay > by
 end

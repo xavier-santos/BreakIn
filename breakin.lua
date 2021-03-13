@@ -42,14 +42,14 @@ function init()
 
     -- Bricks
     bricks = {}
-    brick_count_height = 1
+    brick_count_height = 10
     brick_count_width = 19
     
     for i = 0, brick_count_height do
         for j = 0, brick_count_width do
             local brick = {
-                x = 10 + j * 11,
-                y = 10 + i * 5,
+                x = 32 + j * 11,
+                y = 32 + i * 5,
                 width = 10,
                 height = 4,
                 color = i + 1
@@ -158,11 +158,11 @@ function draw_game_objects()
     -- Draw bricks
     for i, brick in pairs(bricks) do
         rect(
-            bricks[i].x,
-            bricks[i].y,
-            bricks[i].width,
-            bricks[i].height,
-            bricks[i].color
+            brick.x,
+            brick.y,
+            brick.width,
+            brick.height,
+            brick.color
         )
     end
 end
@@ -214,6 +214,6 @@ function TIC()
 -- </TILES>
 
 -- <PALETTE>
--- 000:000000f60404ffff00000000000000000000000000000000000000000000000000000000000000000000000000ffffff
+-- 000:140c1c44243430346d4e4a4f854c30346524d04648757161597dced27d2c8595a16daa2cd2aa996dc2cadad45edeeed6
 -- </PALETTE>
 
