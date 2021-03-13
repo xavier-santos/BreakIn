@@ -35,7 +35,7 @@ function init()
 
     -- Bricks
     bricks = {}
-    brick_count_height = 12
+    brick_count_height = 1
     brick_count_width = 19
     
     for i = 0, brick_count_height, 1 do
@@ -175,6 +175,13 @@ function collisions()
 end
 
 function player_wall_collision()
+    if player.x < 0 then
+        player.x = 0
+
+    elseif player.x + player.width > 240 then
+        player.x = 240 - player.width
+
+    end
 end
 
 function ball_wall_collision()
@@ -232,11 +239,12 @@ function ball_brick_collisions()
             end
 
             -- Collide top or bottom side		
-            if ball.y < y or ball.y > y and x < ball.x and ball.x < x+w then
+            if ball.y < y or ball.y > y and x < ball.x and ball.x < x + w then
                 ball.speed.y = -ball.speed.y
             end
 
             table.remove(bricks, i)
+            print(i)
          end
     end
 end
