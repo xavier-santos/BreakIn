@@ -67,7 +67,7 @@ function input()
     end
 
     -- Use powerup
-    if btnp(7) then
+    if btn(7) then
         use_powerup()
     end
 
