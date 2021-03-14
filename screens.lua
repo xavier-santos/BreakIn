@@ -53,6 +53,7 @@ function screen_manager()
     	if update() then HUD.screen = "win" end
     	if collisions() then HUD.screen = "game over" end
     	draw()
+		gui()
 	end
 end
 
@@ -119,7 +120,7 @@ function gui()
 	generate_sprites(player.powerup, false, 0, 0)
 
 	-- upper right corner
-	for l = 0, player.lives - 1 do
+	for l = 0, player.lives//2 - 1 do
 		generate_sprites(heart, false, heart.x + l*9, heart.y)
 	end
 

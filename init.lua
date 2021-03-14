@@ -3,7 +3,8 @@ function init(character)
     player = {
         powerup = character,
         score = 0,
-        lives = 3
+        lives = 6,
+        powerup_available = false
     }
 
     -- Black Hole
@@ -146,5 +147,5 @@ function init(character)
         end
     end
 
-    time = 1000
+    remaining_time = 1000
 end

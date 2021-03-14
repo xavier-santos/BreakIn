@@ -130,7 +130,7 @@ function use_powerup()
 
     -- Gives one extra life
     elseif player.powerup.name == "sus" then
-        player.lives = player.lives + 1
+        player.lives = player.lives + 2
 
     -- Increases paddle size
     elseif player.powerup.name == "help" then

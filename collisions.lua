@@ -116,8 +116,8 @@ function ball_black_hole_collisions()
         -- Loss a life
         if player.lives > 0 then
             player.lives = player.lives - 1
-
-        elseif player.lives == 0 then
+        end
+        if player.lives == 0 then
             return true --returns true when game is over
 
         end
