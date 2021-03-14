@@ -6,7 +6,7 @@ require "update"
 require "characters"
 
 HUD = {
-	screen = "start",
+	screen = "character select",
 	animation_speed = 4
 }
 
@@ -21,6 +21,7 @@ function screen_manager()
 	
 	if HUD.screen == "character select" then
 		character = character_select()
+
 		if character ~= nil then
 			init(character)
 			HUD.screen = "play"

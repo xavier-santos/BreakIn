@@ -1,7 +1,7 @@
 function init(character)
     -- Player
     player = {
-        powerup = character,
+        powerup = character.name,
         score = 0,
         lives = 3
     }
@@ -20,8 +20,6 @@ function init(character)
     black_hole.center_x = 240/2 - black_hole.rx/2
     black_hole.center_y = 136/2 - black_hole.ry/2 + 2 -- mais para baixo
 
-
-
     -- Paddle
     paddle = {
         x = (240 / 2) - 1,
@@ -34,7 +32,7 @@ function init(character)
         y3 = 0,
         x4 = 0,
         y4 = 0,
-        width = 12,
+        width = 16,
         height = 2,
         color = 1,
         angle = 0,
