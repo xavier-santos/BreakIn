@@ -43,6 +43,16 @@ function screen_manager()
 			end
 		end
 	end
+
+	if HUD.screen == "win" then
+		win()
+		for k = 0, 7 do
+			if btnp(k) then
+				HUD.screen = "start"
+				break
+			end
+		end
+	end
 end
 
 function start()
@@ -91,4 +101,14 @@ function game_over()
 	generate_sprites(depressed, true)
 	
 	print(depressed.text, 24, depressed.y + 64 + 8, 12)
+end
+
+function win()
+	print("FINAL _ SCORE", alignment.middle_align - 54, 0, 12, false, 2)
+	
+	print(player.score, alignment.middle_align + 8, 16, 12, false, 2)
+	
+	generate_sprites(hype, true)
+
+	print(hype.text, alignment.middle_align - 24, hype.y + 64 + 16, 12)
 end
