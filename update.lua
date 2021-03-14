@@ -73,6 +73,13 @@ function update()
         ball.speed.y = ball.speed.max
     end
 
+    -- Deactived ball
+
+    if ball.deactive then
+        ball.x = paddle.x + (paddle.width / 2) - 1.5
+        ball.y = paddle.y - 6
+    end
+
     paddle.x = px
     paddle.y = py
     paddle.speed.x = psx

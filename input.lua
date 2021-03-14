@@ -47,25 +47,22 @@ function input()
         end
     end
 
-    -- Anti-clockwise rotate
-    if btn(4) then
-        paddle.angle = (paddle.angle + math.pi / 16) % math.pi
-    end
-
-    -- Clockwise rotate
-    if btn(5) then
-        paddle.angle = (paddle.angle - math.pi / 16) % math.pi
-    end
-
     -- Deactived ball
     if ball.deactive then
-        ball.x = paddle.x + (paddle.width/2) - 1.5
-        ball.y = paddle.y - 5
-      
         if btn(6) then
-            ball.speed.x = math.floor(math.random())*2-1
+            ball.speed.x = math.floor(math.random()) * 2 - 1
             ball.speed.y = -1.5
             ball.deactive = false
+        end
+    else
+        -- Anti-clockwise rotate
+        if btn(4) then
+            paddle.angle = (paddle.angle + math.pi / 16) % math.pi
+        end
+
+        -- Clockwise rotate
+        if btn(5) then
+            paddle.angle = (paddle.angle - math.pi / 16) % math.pi
         end
     end
 

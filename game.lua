@@ -14,8 +14,8 @@ init()
 function TIC()
     cls()
     input()
-    update()
     collisions()
+    update()
     draw()
  end
 

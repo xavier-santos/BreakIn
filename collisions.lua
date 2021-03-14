@@ -33,7 +33,7 @@ function ball_wall_collision()
 end
 
 function ball_ground_collision()
-    if ball.y + ball.height > 136 then
+    if ball.y1 > 136 then
         -- Reset ball
         ball.deactive = true
 
@@ -50,7 +50,6 @@ end
 
 function paddle_ball_collision()
     if border_collide(paddle, ball) then
-        print("collide")
         ball.speed.y = -ball.speed.y
         ball.speed.x = ball.speed.x + 0.3 * paddle.speed.x
     end
