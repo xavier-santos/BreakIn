@@ -1,9 +1,9 @@
-function collisions()
+function collisions() --returns true when game over collision is detected
     paddle_wall_collision()
     ball_wall_collision()
-    ball_black_hole_collisions()
     paddle_ball_collision()
     ball_brick_collisions() 
+    return ball_black_hole_collisions()
 end
 
 function paddle_wall_collision()
@@ -52,7 +52,7 @@ function ball_black_hole_collisions()
             player.lives = player.lives - 1
 
         elseif player.lives == 0 then
-            game_over()
+            return true --returns true when game is over
 
         end
     end

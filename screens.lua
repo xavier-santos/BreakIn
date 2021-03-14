@@ -30,7 +30,7 @@ function screen_manager()
 	if HUD.screen == "play" then
 		input()
     	update()
-    	collisions()
+    	if collisions() then HUD.screen = "game over" end
     	draw()
 	end
 	
@@ -80,7 +80,7 @@ function play_start_animation(x, y)
 end
 
 function game_over()
-    print("Game Over", HUD.middle_align - 32, 0, 12, false, 2)
+    print("Game Over", alignment.middle_align - 32, 0, 12, false, 2)
 	
 	generate_sprites(depressed, true)
 	
