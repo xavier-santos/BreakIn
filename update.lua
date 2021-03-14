@@ -103,7 +103,10 @@ function update()
 
     remaining_time = remaining_time - 0.01
     player.score = math.floor(remaining_time * (player.lives + 1))
-    print(player.score)
+    
+    -- Generate powerup
+    random = math.random(0, 100)
+    if random < player.powerup_frequency then player.powerup_available = true end
 
     return game_ended()
 end

@@ -127,4 +127,10 @@ function gui()
 	-- lower left corner
 	print("SCORE", 4, 110, 12)
 	print(player.score, 4, 124, 12)
+
+	-- lower right corner
+	print("POWER\nUP", 240 - 36, 110 ,12)
+	if player.powerup_available then
+		print("PRESS\nS!!!", 240 - 36, 124, 12)
+	end
 end
