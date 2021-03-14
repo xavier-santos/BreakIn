@@ -39,6 +39,22 @@ function update()
     px = px + psx
     py = py + psy
 
+    if px < 45 then
+        px = 45
+
+    elseif px > 190 then
+        px = 190
+
+    end
+
+    if py < 40 then
+        py = 40
+
+    elseif py > 104 then
+        py = 104
+
+    end
+
     -- Reduce paddle speed
     if psx ~= 0 then
         if psx > 0 then
@@ -74,7 +90,6 @@ function update()
     end
 
     -- Deactived ball
-
     if ball.deactive then
         ball.x = paddle.x + (paddle.width / 2) - 1.5
         ball.y = paddle.y - 6

@@ -151,7 +151,7 @@ function ball_brick_collisions()
                 ball.speed.y = -ball.speed.y
             end
 
-            table.remove(bricks, i)
+            bricks[i] = nil
          end
     end
 end

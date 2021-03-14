@@ -5,7 +5,7 @@ alignment = {
 }
 
 sanic = {
-	name = sanic,
+	name = "sanic",
 	x = alignment.middle_align,
 	y = 20,
 	sprite = 0,
@@ -14,7 +14,7 @@ sanic = {
 }
 
 xbox = {
-	name = xbox,
+	name = "xbox",
 	x = alignment.left_align,
 	y = 20,
 	sprite = 4,
@@ -23,7 +23,7 @@ xbox = {
 }
 
 stab = {
-	name = stab,
+	name = "stab",
 	x = alignment.right_align,
 	y = 20,
 	sprite = 8,
@@ -32,7 +32,7 @@ stab = {
 }
 
 help = {
-	name = help,
+	name = "help",
 	x = alignment.right_align,
 	y = 64,
 	sprite = 12,
@@ -41,7 +41,7 @@ help = {
 }
 
 sus = {
-	name = sus,
+	name = "sus",
 	x = alignment.middle_align,
 	y = 64,
 	sprite = 64,
@@ -50,7 +50,7 @@ sus = {
 }
 
 creeper = {
-	name = creeper,
+	name = "creeper",
 	x = alignment.left_align,
 	y = 64,
 	sprite = 68,
