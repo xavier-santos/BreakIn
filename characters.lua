@@ -1,7 +1,12 @@
-require "screens"
+alignment = {
+	left_align = 44,
+	middle_align = 104,
+	right_align = 164,
+}
 
 sanic = {
-	x = HUD.middle_align,
+	name = sanic,
+	x = alignment.middle_align,
 	y = 20,
 	sprite = 0,
 	size = 4,
@@ -9,7 +14,8 @@ sanic = {
 }
 
 xbox = {
-	x = HUD.left_align,
+	name = xbox,
+	x = alignment.left_align,
 	y = 20,
 	sprite = 4,
 	size =	4,
@@ -17,7 +23,8 @@ xbox = {
 }
 
 stab = {
-	x = HUD.right_align,
+	name = stab,
+	x = alignment.right_align,
 	y = 20,
 	sprite = 8,
 	size = 4,
@@ -25,7 +32,8 @@ stab = {
 }
 
 help = {
-	x = HUD.right_align,
+	name = help,
+	x = alignment.right_align,
 	y = 64,
 	sprite = 12,
 	size = 4,
@@ -33,7 +41,8 @@ help = {
 }
 
 sus = {
-	x = HUD.middle_align,
+	name = sus,
+	x = alignment.middle_align,
 	y = 64,
 	sprite = 64,
 	size = 4,
@@ -41,7 +50,8 @@ sus = {
 }
 
 creeper = {
-	x = HUD.left_align,
+	name = creeper,
+	x = alignment.left_align,
 	y = 64,
 	sprite = 68,
 	size = 4,
@@ -49,7 +59,8 @@ creeper = {
 }
 
 depressed = {
-	x = HUD.middle_align - 16,
+	name = depressed,
+	x = alignment.middle_align - 16,
 	y = 32,
 	sprite = 72,
 	size = 4,
@@ -62,7 +73,22 @@ Renderer = {
 	h = 1
 }
 
-t = 0
+function character_select()
+	cls()
+
+	--Title
+	print("Choose your fighter", 60, 0, 12)
+	
+	--Render sprite grid
+	for i = 1, 2 do
+		for j = 1, 3 do
+		generate_sprites(Renderer.sprite_grid[i][j], false)
+		end
+	end
+	
+	--Hover animation and selection
+	return select()
+end
 
 function generate_sprites(name, scale)
 	if scale then
@@ -72,18 +98,15 @@ function generate_sprites(name, scale)
 	end
 end
 
-function animate(name)
-	spr(name.sprite, name.x, name.y - t, -1, 1,	0, 0, name.size, name.size)
-end
-
 function select()
-	--0 - UP, 1 - DOWN, 2 - LEFT, 3 - RIGHT
+	--0 - UP, 1 - DOWN, 2 - LEFT, 3 - RIGHT, 4 - A BUTTON
 	
 	if btnp(0) then Renderer.v = Renderer.v - 1 end
 	if btnp(1) then Renderer.v = Renderer.v + 1 end
 	if btnp(2) then Renderer.h = Renderer.h - 1 end
 	if btnp(3) then Renderer.h = Renderer.h + 1 end
-	
+	if btnp(4) then return Renderer.sprite_grid[Renderer.v][Renderer.h] end
+
 	if Renderer.v < 1 then Renderer.v = 1 end
 	if Renderer.v > 2 then Renderer.v = 2 end
 	if Renderer.h < 1 then Renderer.h = 1 end
@@ -93,20 +116,7 @@ function select()
 	print(Renderer.sprite_grid[Renderer.v][Renderer.h].text, 0, 100, 12)
 end
 
-function character_select()
-	cls()
-	print("Choose your fighter", 60, 0, 12)
-		for i = 1, 2 do
-			for j = 1, 3 do
-			generate_sprites(Renderer.sprite_grid[i][j], false)
-			end
-		end
-	
+function animate(name)
 	t = (time()*2//10)%60//30
-	
-	select()
-	if btnp(4) then 
-		init(Renderer.sprite_grid[Renderer.v][Renderer.h])
-		HUD.screen = "play"
-	end
+	spr(name.sprite, name.x, name.y - t, -1, 1,	0, 0, name.size, name.size)
 end
