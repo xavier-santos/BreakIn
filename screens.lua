@@ -6,7 +6,7 @@ require "update"
 require "characters"
 
 HUD = {
-	screen = "start",
+	screen = "win",
 	animation_speed = 4
 }
 
@@ -108,7 +108,7 @@ function game_over()
 end
 
 function win()
-	print("Final_Score", alignment.middle_align - 54, 0, 12, false, 2)
+	print("Final_Score", alignment.middle_align - 40, 0, 12, false, 2)
 	
 	print(player.score, alignment.middle_align, 16, 12, false, 2)
 	
