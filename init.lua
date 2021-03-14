@@ -7,10 +7,10 @@ function init(character)
     }
 
     -- Black Hole
-
-    local black_hole_size = 3 -- menor que 6
+    local black_hole_size = 2 -- menor que 6
 
     black_hole = {
+        sprite = 144,
         rx = 8 * black_hole_size, --precisa de ser um número par
         ry = 6 * black_hole_size, --precisa de ser um número par
         center_x = 0,

@@ -5,12 +5,16 @@ end
 
 function draw_game_objects()
     -- Draw black hole
-    rect(
-        black_hole.center_x,
-        black_hole.center_y,
-        black_hole.rx,
-        black_hole.ry,
-        black_hole.color
+    spr(
+        black_hole.sprite, 
+        black_hole.center_x - black_hole.rx / 2, 
+        black_hole.center_y - black_hole.ry + 4,  
+        -1, 
+        1, 
+        0, 
+        0, 
+        4, 
+        4
     )
 
     -- Draw paddle
