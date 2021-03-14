@@ -6,7 +6,7 @@ require "update"
 require "characters"
 
 HUD = {
-	screen = "win",
+	screen = "start",
 	animation_speed = 4
 }
 
@@ -105,6 +105,8 @@ function game_over()
 	generate_sprites(depressed, true)
 	
 	print(depressed.text, 24, depressed.y + 64 + 8, 12)
+
+	print("Press any key", 24, depressed.y + 64 + 24, 12)
 end
 
 function win()
