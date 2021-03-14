@@ -100,7 +100,7 @@ function play_start_animation(x, y)
 end
 
 function game_over()
-    print("Game Over", alignment.middle_align - 32, 0, 12, false, 2)
+    print("Game_Over", alignment.middle_align - 32, 0, 12, false, 2)
 	
 	generate_sprites(depressed, true)
 	
@@ -108,9 +108,9 @@ function game_over()
 end
 
 function win()
-	print("FINAL _ SCORE", alignment.middle_align - 54, 0, 12, false, 2)
+	print("Final_Score", alignment.middle_align - 54, 0, 12, false, 2)
 	
-	print(player.score, alignment.middle_align + 8, 16, 12, false, 2)
+	print(player.score, alignment.middle_align, 16, 12, false, 2)
 	
 	generate_sprites(hype, true)
 
