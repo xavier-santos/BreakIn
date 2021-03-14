@@ -1,5 +1,5 @@
 -- title:  Breakin
--- author: Triceratops 
+-- author: TriceraTOP 
 -- desc:   Game developed for Retro Jam 2021
 -- script: lua
 
@@ -8,15 +8,11 @@ require "graphics"
 require "init"
 require "input"
 require "update"
-
-init()
+require "screens"
 
 function TIC()
     cls()
-    input()
-    update()
-    collisions()
-    draw()
+    screen_transition()
  end
 
 -- <TILES>
