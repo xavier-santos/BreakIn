@@ -25,6 +25,7 @@ function screen_manager()
 		if character ~= nil then
 			init(character)
 			HUD.screen = "play"
+			music(0)
 		end
 	end
 	
@@ -33,6 +34,7 @@ function screen_manager()
 		for k = 0, 7 do
 			if btnp(k) then
 				HUD.screen = "character select"
+				music(1)
 				break
 			end
 		end
