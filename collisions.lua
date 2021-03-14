@@ -21,7 +21,11 @@ function ball_wall_collision()
         -- Top
         ball.speed.y = -ball.speed.y
 
-    elseif ball.x < 0 then
+    elseif ball.y > 166 then
+        -- Down
+        ball.speed.y = -ball.speed.y
+
+    elseif ball.x < 1 then
         -- Left
         ball.speed.x = -ball.speed.x
 
@@ -33,7 +37,13 @@ function ball_wall_collision()
 end
 
 function ball_ground_collision()
-    if ball.y + ball.height > 136 then
+
+    a = ball.x + ball.height < center_x + rx
+    b = ball.x + ball.height > center_x - rx
+    c = ball.y + ball.height < center_y + ry
+    d = ball.y + ball.height < center_y - ry
+
+    if a and b and c and d then
         -- Reset ball
         ball.deactive = true
 

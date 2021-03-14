@@ -6,6 +6,14 @@ function init()
         lives = 3
     }
 
+    -- Black Hole
+
+    rx = 5
+    ry = 5
+    center_x = 240/2 - rx/2
+    center_y = 136/2 - ry/2
+
+
     -- Paddle
     paddle = {
         x = (240 / 2) - 12,
@@ -36,22 +44,70 @@ function init()
         }
     }
 
-    -- Bricks
-    bricks = {}
-    brick_count_height = 0
-    brick_count_width = 0
+        -- Bricks
+        brick_width = 9
     
-    for i = 0, brick_count_height do
-        for j = 0, brick_count_width do
-            local brick = {
-                x = 32 + j * 11,
-                y = 32 + i * 5,
-                width = 10,
-                height = 4,
-                color = i + 1
-            }
-
-            table.insert(bricks, brick)
+        bricks = {}
+        brick_count_height = 6
+        brick_count_width = 17
+        square_size = 35
+        
+        for i = 0, brick_count_height do
+            for j = 0, brick_count_width do
+                local brick = {
+                    x = square_size + j * (brick_width),
+                    y = i * 5,
+                    width = brick_width-1,
+                    height = 4,
+                    color = i + 1
+                }
+                table.insert(bricks, brick)
+            end
         end
-   end
+    
+        -- 136 = borda + (tijolos*10)
+        brick_count_width = 7
+        
+        for i = 0, brick_count_height do
+            for j = 0, brick_count_width do
+                local brick = {
+                    x = i * 5,
+                    y = square_size + j * (brick_width),
+                    width = 4,
+                    height = brick_width - 1,
+                    color = i + 1
+                }
+                table.insert(bricks, brick)
+            end
+        end
+    
+        brick_count_width = 17
+    
+        for i = 0, brick_count_height do
+            for j = 0, brick_count_width do
+                local brick = {
+                    x = 223 - (square_size + j * (brick_width)) ,
+                    y = 136 - (i*5),
+                    width = (brick_width - 1),
+                    height = 4,
+                    color = i + 1
+                }            
+                table.insert(bricks, brick)
+            end
+        end
+    
+        brick_count_width = 7
+        
+        for i = 0, brick_count_height do
+            for j = 0, brick_count_width do
+                local brick = {
+                    x = 227 - (i*5),
+                    y = square_size + j * (brick_width),
+                    width = 4,
+                    height = brick_width - 1,
+                    color = i + 1
+                }
+                table.insert(bricks, brick)
+            end
+        end
 end
