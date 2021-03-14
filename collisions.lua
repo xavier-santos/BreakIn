@@ -60,7 +60,6 @@ end
 
 function paddle_ball_collision()
     if border_collide(paddle, ball) then
-        print("collide")
         ball.speed.y = -ball.speed.y
         ball.speed.x = ball.speed.x + 0.3 * paddle.speed.x
     end

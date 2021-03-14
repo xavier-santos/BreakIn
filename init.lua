@@ -24,8 +24,16 @@ function init()
 
     -- Paddle
     paddle = {
-        x = (240 / 2) - 1, -- -12
+        x = (240 / 2) - 1,
         y =  black_hole.center_y - 4,
+        x1 = 0, 
+        y1 = 0,
+        x2 = 0,
+        y2 = 0,
+        x3 = 0,
+        y3 = 0,
+        x4 = 0,
+        y4 = 0,
         width = 12,
         height = 2,
         color = 1,
@@ -40,7 +48,15 @@ function init()
     -- Ball
     ball = {
         x = paddle.x + (paddle.width / 2) - 1.5,
-        y = paddle.y - 5,
+        y = paddle.y - 6,
+        x1 = 0, 
+        y1 = 0,
+        x2 = 0,
+        y2 = 0,
+        x3 = 0,
+        y3 = 0,
+        x4 = 0,
+        y4 = 0,
         width = 3,
         height = 3,
         color = 4,
