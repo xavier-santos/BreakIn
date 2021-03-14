@@ -1,6 +1,8 @@
 function collisions() --returns true when game over collision is detected
     paddle_wall_collision()
     ball_wall_collision()
+    ball_corner_collision()
+    ball_black_hole_collisions()
     paddle_ball_collision()
     ball_brick_collisions() 
     return ball_black_hole_collisions()
@@ -17,31 +19,95 @@ function paddle_wall_collision()
 end
 
 function ball_wall_collision()
+    -- Top wall
     if ball.y < 0 then
-        -- Top
         ball.speed.y = -ball.speed.y
 
-    elseif ball.y > 166 then
-        -- Down
+    -- Bottom wall
+    elseif ball.y > 136 then
         ball.speed.y = -ball.speed.y
-
+    
+    -- Left wall
     elseif ball.x < 1 then
-        -- Left
         ball.speed.x = -ball.speed.x
-
+    
+    -- Right wall
     elseif ball.x > 240 - ball.width then
-        -- Right
         ball.speed.x = -ball.speed.x
 
     end
 end
 
-function ball_black_hole_collisions()
+function ball_corner_collision()
+    local a1 = {ball.x1, ball.y1, ball.x2, ball.y2}
+    local a2 = {ball.x1, ball.y1, ball.x3, ball.y3}
+    local a3 = {ball.x2, ball.y2, ball.x4, ball.y4}
+    local a4 = {ball.x3, ball.y3, ball.x4, ball.y4}
 
-    a = ball.x + ball.height < black_hole.center_x + black_hole.rx + 3 --x left limit
-    b = ball.x + ball.height > black_hole.center_x + 1 --x rigt limit
-    c = ball.y + ball.height > black_hole.center_y -- top limit
-    d = ball.y + ball.height < black_hole.center_y + black_hole.ry + 3 -- top limit
+    local x1 = 0
+    local x2 = 39
+    local x3 = 200
+    local x4 = 240
+
+    local y1 = 0
+    local y2 = 30
+    local y3 = 106
+    local y4 = 136
+
+    -- Top left corner
+    local l1 = {x2, y1, x2, y2}
+    local l2 = {x1, y2, x2, y2}
+
+    if line_intersection(a2, l1) then
+        ball.speed.x = -ball.speed.x
+
+    elseif line_intersection(a1, l2) then
+        ball.speed.y = -ball.speed.y
+
+    end
+
+    -- Top right corner
+    local l3 = {x3, y1, x3, y2}
+    local l4 = {x3, y2, x4, y2}
+
+    if line_intersection(a3, l3) then
+        ball.speed.x = -ball.speed.x
+
+    elseif line_intersection(a1, l4) then
+        ball.speed.y = -ball.speed.y
+
+    end
+
+    -- Bottom left corner
+    local l5 = {x2, y3, x2, y4}
+    local l6 = {x1, y3, x2, y3}
+
+    if line_intersection(a2, l5) then
+        ball.speed.x = -ball.speed.x
+
+    elseif line_intersection(a4, l6) then
+        ball.speed.y = -ball.speed.y
+
+    end
+
+    -- Bottom right corner
+    local l7 = {x3, y3, x3, y4}
+    local l8 = {x3, y3, x4, y3}
+
+    if line_intersection(a3, l7) then
+        ball.speed.x = -ball.speed.x
+
+    elseif line_intersection(a4, l8) then
+        ball.speed.y = -ball.speed.y
+
+    end
+end
+
+function ball_black_hole_collisions()
+    a = ball.x + ball.height < black_hole.center_x + black_hole.rx + 3   -- X left limit
+    b = ball.x + ball.height > black_hole.center_x + 1                   -- X rigt limit
+    c = ball.y + ball.height > black_hole.center_y                       -- Top limit
+    d = ball.y + ball.height < black_hole.center_y + black_hole.ry + 3   -- Top limit
 
     if a and b and c and d then
         -- Reset ball
