@@ -27,14 +27,6 @@ function screen_manager()
 			HUD.screen = "play"
 		end
 	end
-
-	if HUD.screen == "play" then
-		input()
-    	update()
-    	if collisions() then HUD.screen = "game over" end
-    	draw()
-		gui()
-	end
 	
 	if HUD.screen == "game over" then
 		game_over()
@@ -55,6 +47,13 @@ function screen_manager()
 			end
 		end
 	end
+
+	if HUD.screen == "play" then
+		input()
+    	if update() then HUD.screen = "win" end
+    	if collisions() then HUD.screen = "game over" end
+    	draw()
+	end
 end
 
 function start()
@@ -63,7 +62,7 @@ function start()
 	print("Press any key", 165, 96, 12)
 		
 	for k = 0, 7 do
-		if btn(k) then
+		if btnp(k) then
 			animation_start = time()//100*HUD.animation_speed
 			HUD.screen = "start animation"
 			break
