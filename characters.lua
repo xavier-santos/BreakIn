@@ -95,6 +95,7 @@ function character_select()
 
 	--Title
 	print("Choose your fighter", 60, 0, 12)
+	print("(Press Z to select)", 60, 8, 12)
 	
 	--Render sprite grid
 	for i = 1, 2 do
