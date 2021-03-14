@@ -36,6 +36,12 @@ function screen_manager()
 	
 	if HUD.screen == "game over" then
 		game_over()
+		for k = 0, 7 do
+			if btnp(k) then
+				HUD.screen = "character select"
+				break
+			end
+		end
 	end
 end
 
