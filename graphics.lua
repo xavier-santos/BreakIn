@@ -28,11 +28,11 @@ function draw_game_objects()
     end
 
     rect(
-        center_x,
-        center_y,
-        rx,
-        ry,
-        1
+        black_hole.center_x,
+        black_hole.center_y,
+        black_hole.rx,
+        black_hole.ry,
+        black_hole.color
     )
 
 end

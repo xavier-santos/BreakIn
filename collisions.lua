@@ -1,9 +1,9 @@
 function collisions()
     paddle_wall_collision()
     ball_wall_collision()
-    ball_ground_collision()
+    ball_black_hole_collisions()
     paddle_ball_collision()
-    ball_brick_collisions()
+    ball_brick_collisions() 
 end
 
 function paddle_wall_collision()
@@ -36,12 +36,12 @@ function ball_wall_collision()
     end
 end
 
-function ball_ground_collision()
+function ball_black_hole_collisions()
 
-    a = ball.x + ball.height < center_x + rx
-    b = ball.x + ball.height > center_x - rx
-    c = ball.y + ball.height < center_y + ry
-    d = ball.y + ball.height < center_y - ry
+    a = ball.x + ball.height < black_hole.center_x + black_hole.rx + 3 --x left limit
+    b = ball.x + ball.height > black_hole.center_x + 1 --x rigt limit
+    c = ball.y + ball.height > black_hole.center_y -- top limit
+    d = ball.y + ball.height < black_hole.center_y + black_hole.ry + 3 -- top limit
 
     if a and b and c and d then
         -- Reset ball
