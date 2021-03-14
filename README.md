@@ -1,4 +1,4 @@
-# BreakIn
+# Break_In
 
 Game developed for Retro Jam 2021
 
@@ -11,7 +11,9 @@ Game developed for Retro Jam 2021
 </p>
 
 ## Key Features
-
+A different take on the popular game Breakout with 360? fields of blocks surrounding and character powerups!
+ Now your reactions have to be even quicker to suceed in this challenging game, breaking all the blocks without letting your ball be caught by the menacing black hole!
+ 
 * Character selection 
 * Paddle rotation
 * Black hole
@@ -20,9 +22,14 @@ Game developed for Retro Jam 2021
 
 ## How To Play
 
-
+* Arrows - Move paddle in all directions
+* A - Release ball
+* Z - Confirm / Rotate paddle anti-clockwise
+* X - Rotate paddle clockwise
+* S - Use powerup
+* Esc - Go back
 ## Download
-
+https://educorreia932.itch.io/breakin
 ## Contributors
 
 ## Related
