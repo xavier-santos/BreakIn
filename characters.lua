@@ -67,6 +67,15 @@ depressed = {
 	text = "Use your reactions and cry again..."
 }
 
+hype = {
+	name = "hype",
+	x = alignment.middle_align - 16,
+	y = 40,
+	sprite = 76,
+	size = 4,
+	text = "Ninja reflexes!"
+}
+
 Renderer = {
 	sprite_grid = {{xbox, sanic, stab}, {creeper, sus, help}},
 	v = 1,
