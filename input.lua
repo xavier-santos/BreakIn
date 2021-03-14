@@ -67,8 +67,9 @@ function input()
     end
 
     -- Use powerup
-    if btn(7) then
+    if btn(7) and player.powerup_available then
         use_powerup()
+        player.powerup_available = false
     end
 
     paddle.speed.x = sx

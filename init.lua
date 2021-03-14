@@ -4,7 +4,8 @@ function init(character)
         powerup = character,
         score = 0,
         lives = 6,
-        powerup_available = false
+        powerup_available = false,
+        powerup_frequency = 1
     }
 
     -- Black Hole
