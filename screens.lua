@@ -46,7 +46,7 @@ function start()
 		
 	for k = 0, 7 do
 		if btn(k) then
-			animation_start = time()//100*3
+			animation_start = time()//100*HUD.animation_speed
 			HUD.screen = "start animation"
 			break
 		end
