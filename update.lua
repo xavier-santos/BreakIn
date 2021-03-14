@@ -101,6 +101,10 @@ function update()
     paddle.speed.y = psy
     paddle.speed.max = smax
 
+    time = time - 0.01
+    player.score = math.floor(time * (player.lives + 1))
+    print(player.score)
+
     return game_ended()
 end
 

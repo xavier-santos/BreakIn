@@ -71,78 +71,80 @@ function init(character)
     local shift_x = -4 --entre -4 e -5
     local zoom_y = 5 --entre 
 
-        brick_width = 9
-    
-        -- Cima
+    brick_width = 9
 
-        bricks = {}
-        brick_count_height = 5
-        brick_count_width = 17
-        square_size = 35
-        
-        for i = 0, brick_count_height do
-            for j = 0, brick_count_width do
-                local brick = {
-                    x = square_size + j * (brick_width) - shift_x,
-                    y = i * 5 + zoom_y,
-                    width = brick_width - 1,
-                    height = 4,
-                    color = i + 1
-                }
-                table.insert(bricks, brick)
-            end
-        end
+    -- Cima
 
-        -- Lado esquerdo
+    bricks = {}
+    brick_count_height = 5
+    brick_count_width = 17
+    square_size = 35
     
-        -- 136 = borda + (tijolos*10)
-        brick_count_height = 6
-        brick_count_width = 7
-        
-        for i = 0, brick_count_height do
-            for j = 0, brick_count_width do
-                local brick = {
-                    x = i * 5 - shift_x,
-                    y = square_size + j * (brick_width),
-                    width = 4,
-                    height = brick_width - 1,
-                    color = i + 1
-                }
-                table.insert(bricks, brick)
-            end
+    for i = 0, brick_count_height do
+        for j = 0, brick_count_width do
+            local brick = {
+                x = square_size + j * (brick_width) - shift_x,
+                y = i * 5 + zoom_y,
+                width = brick_width - 1,
+                height = 4,
+                color = i + 1
+            }
+            table.insert(bricks, brick)
         end
-        -- Baixo
-        brick_count_width = 17
-        brick_count_height = 5
+    end
+
+    -- Lado esquerdo
+
+    -- 136 = borda + (tijolos*10)
+    brick_count_height = 6
+    brick_count_width = 7
     
-        for i = 0, brick_count_height do
-            for j = 0, brick_count_width do
-                local brick = {
-                    x = 223 - (square_size + j * (brick_width)) - shift_x,
-                    y = 136 - (i*5) - zoom_y,
-                    width = (brick_width - 1),
-                    height = 4,
-                    color = i + 1
-                }            
-                table.insert(bricks, brick)
-            end
-        
+    for i = 0, brick_count_height do
+        for j = 0, brick_count_width do
+            local brick = {
+                x = i * 5 - shift_x,
+                y = square_size + j * (brick_width),
+                width = 4,
+                height = brick_width - 1,
+                color = i + 1
+            }
+            table.insert(bricks, brick)
         end
-        -- Lado direito
-        
-        brick_count_width = 7
-        brick_count_height = 6
-        
-        for i = 0, brick_count_height do
-            for j = 0, brick_count_width do
-                local brick = {
-                    x = 227 - (i*5) - shift_x,
-                    y = square_size + j * (brick_width),
-                    width = 4,
-                    height = brick_width - 1,
-                    color = i + 1
-                }
-                table.insert(bricks, brick)
-            end
+    end
+    -- Baixo
+    brick_count_width = 17
+    brick_count_height = 5
+
+    for i = 0, brick_count_height do
+        for j = 0, brick_count_width do
+            local brick = {
+                x = 223 - (square_size + j * (brick_width)) - shift_x,
+                y = 136 - (i*5) - zoom_y,
+                width = (brick_width - 1),
+                height = 4,
+                color = i + 1
+            }            
+            table.insert(bricks, brick)
         end
+    
+    end
+    -- Lado direito
+    
+    brick_count_width = 7
+    brick_count_height = 6
+    
+    for i = 0, brick_count_height do
+        for j = 0, brick_count_width do
+            local brick = {
+                x = 227 - (i*5) - shift_x,
+                y = square_size + j * (brick_width),
+                width = 4,
+                height = brick_width - 1,
+                color = i + 1
+            }
+            table.insert(bricks, brick)
+        end
+    end
+
+    time = 1000
 end
