@@ -1,7 +1,7 @@
-function init()
+function init(character)
     -- Player
     player = {
-        -- TODO: Include selected character
+        powerup = character,
         score = 0,
         lives = 3
     }
