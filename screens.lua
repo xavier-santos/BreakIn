@@ -6,7 +6,7 @@ require "update"
 require "characters"
 
 HUD = {
-	screen = "character select",
+	screen = "start",
 	animation_speed = 4
 }
 
@@ -33,6 +33,7 @@ function screen_manager()
     	update()
     	if collisions() then HUD.screen = "game over" end
     	draw()
+		gui()
 	end
 	
 	if HUD.screen == "game over" then
@@ -112,4 +113,18 @@ function win()
 	generate_sprites(hype, true)
 
 	print(hype.text, alignment.middle_align - 24, hype.y + 64 + 16, 12)
+end
+
+function gui()
+	-- upper left corner
+	generate_sprites(player.powerup, false, 0, 0)
+
+	-- upper right corner
+	for l = 0, player.lives - 1 do
+		generate_sprites(heart, false, heart.x + l*9, heart.y)
+	end
+
+	-- lower left corner
+	print("SCORE", 4, 110, 12)
+	print(player.score, 4, 124, 12)
 end

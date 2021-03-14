@@ -78,7 +78,7 @@ end
 
 function use_powerup()
     -- Explode in a X pattern
-    if player.powerup == "xbox" then
+    if player.powerup.name == "xbox" then
         local x1 = ball.x - 21
         local y1 = ball.y - 21
         local x2 = ball.x + 21
@@ -99,12 +99,12 @@ function use_powerup()
         end
 
     -- Slows down time
-    elseif player.powerup == "sanic" then
+    elseif player.powerup.name == "sanic" then
         ball.speed.x = ball.speed.x / 2
         ball.speed.y = ball.speed.y / 2
 
     -- Cuts whole row/column
-    elseif player.powerup == "stab" then    
+    elseif player.powerup.name == "stab" then    
         for i, brick in pairs(bricks) do
             local x = brick.x
             local y = brick.y
@@ -116,7 +116,7 @@ function use_powerup()
         end
 
     -- Explode in a square pattern
-    elseif player.powerup == "creeper" then
+    elseif player.powerup.name == "creeper" then
         local r = 21
 
         for i, brick in pairs(bricks) do
@@ -129,11 +129,11 @@ function use_powerup()
         end
 
     -- Gives one extra life
-    elseif player.powerup == "sus" then
+    elseif player.powerup.name == "sus" then
         player.lives = player.lives + 1
 
     -- Increases paddle size
-    elseif player.powerup == "help" then
+    elseif player.powerup.name == "help" then
         paddle.width = paddle.width + 10
     end
 end

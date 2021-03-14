@@ -76,6 +76,15 @@ hype = {
 	text = "Ninja reflexes!"
 }
 
+heart = {
+	name = "heart",
+	x = 240 - 36,
+	y = 16,
+	sprite = 128,
+	size = 1,
+	text = "Undertale FTW!"
+}
+
 Renderer = {
 	sprite_grid = {{xbox, sanic, stab}, {creeper, sus, help}},
 	v = 1,
@@ -83,7 +92,6 @@ Renderer = {
 }
 
 function character_select()
-	cls()
 
 	--Title
 	print("Choose your fighter", 60, 0, 12)
@@ -99,11 +107,15 @@ function character_select()
 	return select()
 end
 
-function generate_sprites(name, scale)
-	if scale then
-		spr(name.sprite, name.x, name.y, -1, 2, 0, 0, name.size, name.size)
-	else
-		spr(name.sprite, name.x, name.y, -1, 1, 0, 0, name.size, name.size)
+function generate_sprites(name, scale, x, y)
+	if x ~= nil and y ~= nil then
+		spr(name.sprite, x, y, -1, 1, 0, 0, name.size, name.size)
+	else	
+		if scale then
+			spr(name.sprite, name.x, name.y, -1, 2, 0, 0, name.size, name.size)
+		else
+			spr(name.sprite, name.x, name.y, -1, 1, 0, 0, name.size, name.size)
+		end
 	end
 end
 

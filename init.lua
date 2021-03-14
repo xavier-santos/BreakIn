@@ -1,7 +1,7 @@
 function init(character)
     -- Player
     player = {
-        powerup = character.name,
+        powerup = character,
         score = 0,
         lives = 3
     }
