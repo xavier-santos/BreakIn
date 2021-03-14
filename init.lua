@@ -149,4 +149,6 @@ function init(character)
     end
 
     remaining_time = 1000
+
+    track = 0
 end
