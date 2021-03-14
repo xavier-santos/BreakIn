@@ -100,4 +100,16 @@ function update()
     paddle.speed.x = psx
     paddle.speed.y = psy
     paddle.speed.max = smax
+
+    return game_ended()
+end
+
+function game_ended()
+    for i, brick in pairs(bricks) do
+        if brick ~= nil then
+            return false
+        end
+    end
+
+    return true
 end

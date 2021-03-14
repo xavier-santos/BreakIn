@@ -30,7 +30,7 @@ function screen_manager()
 
 	if HUD.screen == "play" then
 		input()
-    	update()
+    	if update() then HUD.screen = "win" end
     	if collisions() then HUD.screen = "game over" end
     	draw()
 	end
