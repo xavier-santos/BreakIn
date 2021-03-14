@@ -1,5 +1,5 @@
 -- title:  Breakin
--- author: Triceratops 
+-- author: TriceraTOP
 -- desc:   Game developed for Retro Jam 2021
 -- script: lua
 
