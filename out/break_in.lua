@@ -1,9 +1,1026 @@
+alignment = {
+	left_align = 44,
+	middle_align = 104,
+	right_align = 164,
+}
+
+sanic = {
+	name = "sanic",
+	x = alignment.middle_align,
+	y = 20,
+	sprite = 0,
+	size = 4,
+	text = "Gotta go feeeeeest!\n\nGet the time controlling powers\nof the blue wonder."
+}
+
+xbox = {
+	name = "xbox",
+	x = alignment.left_align,
+	y = 20,
+	sprite = 4,
+	size =	4,
+	text = "X-Box One X... Box One X...\n\nExplode blocks in a pattern that will make\nany Playstation owner look at you weird."
+}
+
+stab = {
+	name = "stab",
+	x = alignment.right_align,
+	y = 20,
+	sprite = 8,
+	size = 4,
+	text = "Stabby stab!\n\nSlash blocks like you're a yandere and\nsomeone is stealing your boyfriend."
+}
+
+help = {
+	name = "help",
+	x = alignment.right_align,
+	y = 64,
+	sprite = 12,
+	size = 4,
+	text = "Everyone needs a lil help sometimes.\n\nThis nice boi will make your paddle bigger and\nmake you feel safe and cozy."
+}
+
+sus = {
+	name = "sus",
+	x = alignment.middle_align,
+	y = 64,
+	sprite = 64,
+	size = 4,
+	text = "Puppy eyes that will melt the game devs'\nhearts and grant you a sneaky extra life\ncheat code.\n\nShhh... don't tell the others."
+}
+
+creeper = {
+	name = "creeper",
+	x = alignment.left_align,
+	y = 64,
+	sprite = 68,
+	size = 4,
+	text = "Boom!"
+}
+
+depressed = {
+	name = depressed,
+	x = alignment.middle_align - 16,
+	y = 32,
+	sprite = 72,
+	size = 4,
+	text = "Use your reactions and cry again..."
+}
+
+hype = {
+	name = "hype",
+	x = alignment.middle_align - 16,
+	y = 40,
+	sprite = 76,
+	size = 4,
+	text = "Ninja reflexes!"
+}
+
+heart = {
+	name = "heart",
+	x = 240 - 36,
+	y = 16,
+	sprite = 128,
+	size = 1,
+	text = "Undertale FTW!"
+}
+
+Renderer = {
+	sprite_grid = {{xbox, sanic, stab}, {creeper, sus, help}},
+	v = 1,
+	h = 1
+}
+
+function character_select()
+
+	--Title
+	print("Choose your fighter", 60, 0, 12)
+	print("(Press Z to select)", 60, 8, 12)
+	
+	--Render sprite grid
+	for i = 1, 2 do
+		for j = 1, 3 do
+		generate_sprites(Renderer.sprite_grid[i][j], false)
+		end
+	end
+	
+	--Hover animation and selection
+	return select()
+end
+
+function generate_sprites(name, scale, x, y)
+	if x ~= nil and y ~= nil then
+		spr(name.sprite, x, y, -1, 1, 0, 0, name.size, name.size)
+	else	
+		if scale then
+			spr(name.sprite, name.x, name.y, -1, 2, 0, 0, name.size, name.size)
+		else
+			spr(name.sprite, name.x, name.y, -1, 1, 0, 0, name.size, name.size)
+		end
+	end
+end
+
+function select()
+	--0 - UP, 1 - DOWN, 2 - LEFT, 3 - RIGHT, 4 - A BUTTON
+	
+	if btnp(0) then Renderer.v = Renderer.v - 1 end
+	if btnp(1) then Renderer.v = Renderer.v + 1 end
+	if btnp(2) then Renderer.h = Renderer.h - 1 end
+	if btnp(3) then Renderer.h = Renderer.h + 1 end
+	if btnp(4) then return Renderer.sprite_grid[Renderer.v][Renderer.h] end
+
+	if Renderer.v < 1 then Renderer.v = 1 end
+	if Renderer.v > 2 then Renderer.v = 2 end
+	if Renderer.h < 1 then Renderer.h = 1 end
+	if Renderer.h > 3 then Renderer.h = 3 end
+	
+	animate(Renderer.sprite_grid[Renderer.v][Renderer.h])
+	print(Renderer.sprite_grid[Renderer.v][Renderer.h].text, 0, 100, 12)
+end
+
+function animate(name)
+	t = (time()*2//10)%60//30
+	spr(name.sprite, name.x, name.y - t, -1, 1,	0, 0, name.size, name.size)
+end
+function collisions() --returns true when game over collision is detected
+    paddle_wall_collision()
+    ball_wall_collision()
+    ball_corner_collision()
+    ball_black_hole_collisions()
+    paddle_ball_collision()
+    ball_brick_collisions() 
+    return ball_black_hole_collisions()
+end
+
+function paddle_wall_collision()
+    if paddle.x < 0 then
+        paddle.x = 0
+
+    elseif paddle.x + paddle.width > 240 then
+        paddle.x = 240 - paddle.width
+
+    end
+end
+
+function ball_wall_collision()
+    -- Top wall
+    if ball.y < 0 then
+        ball.speed.y = -ball.speed.y
+
+    -- Bottom wall
+    elseif ball.y > 136 then
+        ball.speed.y = -ball.speed.y
+    
+    -- Left wall
+    elseif ball.x < 1 then
+        ball.speed.x = -ball.speed.x
+    
+    -- Right wall
+    elseif ball.x > 240 - ball.width then
+        ball.speed.x = -ball.speed.x
+
+    end
+end
+
+function ball_corner_collision()
+    local a1 = {ball.x1, ball.y1, ball.x2, ball.y2}
+    local a2 = {ball.x1, ball.y1, ball.x3, ball.y3}
+    local a3 = {ball.x2, ball.y2, ball.x4, ball.y4}
+    local a4 = {ball.x3, ball.y3, ball.x4, ball.y4}
+
+    local x1 = 0
+    local x2 = 39
+    local x3 = 200
+    local x4 = 240
+
+    local y1 = 0
+    local y2 = 30
+    local y3 = 106
+    local y4 = 136
+
+    -- Top left corner
+    local l1 = {x2, y1, x2, y2}
+    local l2 = {x1, y2, x2, y2}
+
+    if line_intersection(a2, l1) then
+        ball.speed.x = -ball.speed.x
+
+    elseif line_intersection(a1, l2) then
+        ball.speed.y = -ball.speed.y
+
+    end
+
+    -- Top right corner
+    local l3 = {x3, y1, x3, y2}
+    local l4 = {x3, y2, x4, y2}
+
+    if line_intersection(a3, l3) then
+        ball.speed.x = -ball.speed.x
+
+    elseif line_intersection(a1, l4) then
+        ball.speed.y = -ball.speed.y
+
+    end
+
+    -- Bottom left corner
+    local l5 = {x2, y3, x2, y4}
+    local l6 = {x1, y3, x2, y3}
+
+    if line_intersection(a2, l5) then
+        ball.speed.x = -ball.speed.x
+
+    elseif line_intersection(a4, l6) then
+        ball.speed.y = -ball.speed.y
+
+    end
+
+    -- Bottom right corner
+    local l7 = {x3, y3, x3, y4}
+    local l8 = {x3, y3, x4, y3}
+
+    if line_intersection(a3, l7) then
+        ball.speed.x = -ball.speed.x
+
+    elseif line_intersection(a4, l8) then
+        ball.speed.y = -ball.speed.y
+
+    end
+end
+
+function ball_black_hole_collisions()
+    a = ball.x + ball.height < black_hole.center_x + black_hole.rx + 3   -- X left limit
+    b = ball.x + ball.height > black_hole.center_x + 1                   -- X rigt limit
+    c = ball.y + ball.height > black_hole.center_y                       -- Top limit
+    d = ball.y + ball.height < black_hole.center_y + black_hole.ry + 3   -- Top limit
+
+    if a and b and c and d then
+        -- Reset ball
+        ball.deactive = true
+
+        -- Loss a life
+        if player.lives > 0 then
+            player.lives = player.lives - 1
+        end
+        if player.lives == 0 then
+            return true --returns true when game is over
+
+        end
+    end
+end
+
+function paddle_ball_collision()
+    if border_collide(paddle, ball) then
+        ball.speed.y = -ball.speed.y
+        ball.speed.x = ball.speed.x + 0.3 * paddle.speed.x
+    end
+end
+
+function ball_brick_collisions()
+    for i, brick in pairs(bricks) do
+        -- Get parameters
+        local x = brick.x
+        local y = brick.y
+        local w = brick.width
+        local h = brick.height
+       
+        -- Check collision
+        if collide(ball, bricks[i]) then
+            -- Collide left or right side
+            if y < ball.y and ball.y < y + h and ball.x < x or x + w < ball.x then
+                ball.speed.x = -ball.speed.x
+            end
+
+            -- Collide top or bottom side		
+            if ball.y < y or ball.y > y and x < ball.x and ball.x < x + w then
+                ball.speed.y = -ball.speed.y
+            end
+
+            bricks[i] = nil
+         end
+    end
+end
+
+function collide(a, b)
+    -- Get parameters from a and b
+    local ax = a.x
+    local ay = a.y
+    local aw = a.width
+    local ah = a.height
+    local bx = b.x
+    local by = b.y
+    local bw = b.width
+    local bh = b.height
+   
+    -- Check collision
+    return ax < bx + bw and ax + aw > bx and ay < by + bh and ah + ay > by
+end
+
+function border_collide(a, b)
+    local a1 = {a.x1, a.y1, a.x2, a.y2}
+    local a2 = {a.x1, a.y1, a.x3, a.y3}
+    local a3 = {a.x2, a.y2, a.x4, a.y4}
+    local a4 = {a.x3, a.y3, a.x4, a.y4}
+
+    local b1 = {b.x1, b.y1, b.x2, b.y2}
+    local b2 = {b.x1, b.y1, b.x3, b.y3}
+    local b3 = {b.x2, b.y2, b.x4, b.y4}
+    local b4 = {b.x3, b.y3, b.x4, b.y4}
+
+    for _, l1 in pairs({a1, a2, a3, a4}) do
+        for _, l2 in pairs({b1, b2, b3, b4}) do
+            if line_intersection(l1, l2) then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+function on_segment(x0, y0, x1, y1, x2, y2)
+    return 
+        x1 <= math.max(x0, x2) and 
+        x1 >= math.min(x0, x2) and 
+        y1 <= math.max(y0, y2) and
+        y1 >= math.min(y0, y2)
+end
+
+function orientation(x0, y0, x1, y1, x2, y2)
+    -- To find the orientation of an ordered triplet (p,q,r) 
+    -- 0 : Colinear points 
+    -- 1 : Clockwise points 
+    -- 2 : Counterclockwise 
+
+    val = (y1 - y0) * (x2 - x1) - (x1 - x0) * (y2 - y1)
+
+    if val > 0 then
+        return 1  -- Clockwise orientation
+
+    elseif val < 0 then
+        return 2  -- Counter-clockwise orientation
+
+    else
+        return 0  -- Colinear orientation
+
+    end
+end
+
+function line_intersection(l1, l2)
+    local x0 = l1[1]
+    local y0 = l1[2] 
+    local x1 = l1[3] 
+    local y1 = l1[4] 
+    
+    local x2 = l2[1] 
+    local y2 = l2[2] 
+    local x3 = l2[3] 
+    local y3 = l2[4]
+
+    o1 = orientation(x0, y0, x1, y1, x2, y2) 
+    o2 = orientation(x0, y0, x1, y1, x3, y3) 
+    o3 = orientation(x2, y2, x3, y3, x0, y0) 
+    o4 = orientation(x2, y2, x3, y3, x1, y1)
+    
+    -- General case 
+    if o1 ~= o2 and o3 ~= o4 then
+        return true
+    end
+
+    -- p1 , q1 and x2, y1, are colinear and x2, y1, lies on segment p1q1 
+    if o1 == 0 and on_segment(x0, y0, x2, y2, x1, y1) then
+        return true
+    end
+  
+    -- p1, q1 and q2 are colinear and q2 lies on segment p1q1 
+    if o2 == 0 and on_segment(x0, y0, x3, y3, x1, y1) then
+        return true
+    end
+  
+    -- x2, y1 and q2 and p1 are colinear and p1 lies on segment x2, y1,q2 
+    if o3 == 0 and on_segment(x2, y2, x0, y0, x3, y3) then
+        return true
+    end
+  
+    -- x2, y1, q2 and q1 are colinear and q1 lies on segment x2, y1,q2 
+    if o4 == 0 and on_segment(x2, y2, x1, y1, x3, y3) then
+        return true
+    end
+  
+    -- If none of the cases 
+    return False
+end
+function draw()
+    draw_game_objects()
+    draw_gui()
+end
+
+function draw_game_objects()
+    -- Draw black hole
+    spr(
+        black_hole.sprite, 
+        black_hole.center_x - black_hole.rx / 2, 
+        black_hole.center_y - black_hole.ry + 4,  
+        -1, 
+        1, 
+        0, 
+        0, 
+        4, 
+        4
+    )
+
+    -- Draw paddle
+    tri(paddle.x1, paddle.y1, paddle.x2, paddle.y2, paddle.x3, paddle.y3, 1)
+    tri(paddle.x2, paddle.y2, paddle.x3, paddle.y3, paddle.x4, paddle.y4, 1)
+
+    -- Draw ball
+    rect(
+        ball.x,
+        ball.y,
+        ball.width,
+        ball.height,
+        ball.color
+    )
+
+    -- Draw bricks
+    for i, brick in pairs(bricks) do
+        rect(
+            brick.x,
+            brick.y,
+            brick.width,
+            brick.height,
+            brick.color
+        )
+    end
+end
+
+function draw_gui() 
+end
+
+function rotate(x, y, angle) 
+    _x = x * math.cos(angle) - y * math.sin(angle)
+    _y = x * math.sin(angle) + y * math.cos(angle)
+
+    return _x, _y
+end
+
+function translate(x, y, w, h)
+    return x + w, y + h
+end
+function init(character)
+    -- Player
+    player = {
+        powerup = character,
+        score = 0,
+        lives = 6,
+        powerup_available = false,
+        powerup_frequency = 1
+    }
+
+    -- Black Hole
+    local black_hole_size = 2 -- menor que 6
+
+    black_hole = {
+        sprite = 144,
+        rx = 8 * black_hole_size, --precisa de ser um número par
+        ry = 6 * black_hole_size, --precisa de ser um número par
+        center_x = 0,
+        center_y = 0,
+        color = 3 
+    }
+    black_hole.center_x = 240/2 - black_hole.rx/2
+    black_hole.center_y = 136/2 - black_hole.ry/2 + 2 -- mais para baixo
+
+    -- Paddle
+    paddle = {
+        x = (240 / 2) - 1,
+        y =  black_hole.center_y - 4,
+        x1 = 0, 
+        y1 = 0,
+        x2 = 0,
+        y2 = 0,
+        x3 = 0,
+        y3 = 0,
+        x4 = 0,
+        y4 = 0,
+        width = 16,
+        height = 2,
+        color = 1,
+        angle = 0,
+        speed = {
+            x = 0,
+            y = 0,
+            max = 4
+        }
+    }
+
+    -- Ball
+    ball = {
+        x = paddle.x + (paddle.width / 2) - 1.5,
+        y = paddle.y - 6,
+        x1 = 0, 
+        y1 = 0,
+        x2 = 0,
+        y2 = 0,
+        x3 = 0,
+        y3 = 0,
+        x4 = 0,
+        y4 = 0,
+        width = 3,
+        height = 3,
+        color = 4,
+        deactive = true,
+        speed = {
+            x = 0,
+            y = 0,
+            max = 1.5
+        }
+    }
+    
+    -- Bricks
+    
+    local shift_x = -4 --entre -4 e -5
+    local zoom_y = 5 --entre 
+
+    brick_width = 9
+
+    -- Cima
+
+    bricks = {}
+    brick_count_height = 5
+    brick_count_width = 17
+    square_size = 35
+    
+    for i = 0, brick_count_height do
+        for j = 0, brick_count_width do
+            local brick = {
+                x = square_size + j * (brick_width) - shift_x,
+                y = i * 5 + zoom_y,
+                width = brick_width - 1,
+                height = 4,
+                color = i + 1
+            }
+            table.insert(bricks, brick)
+        end
+    end
+
+    -- Lado esquerdo
+
+    -- 136 = borda + (tijolos*10)
+    brick_count_height = 6
+    brick_count_width = 7
+    
+    for i = 0, brick_count_height do
+        for j = 0, brick_count_width do
+            local brick = {
+                x = i * 5 - shift_x,
+                y = square_size + j * (brick_width),
+                width = 4,
+                height = brick_width - 1,
+                color = i + 1
+            }
+            table.insert(bricks, brick)
+        end
+    end
+    -- Baixo
+    brick_count_width = 17
+    brick_count_height = 5
+
+    for i = 0, brick_count_height do
+        for j = 0, brick_count_width do
+            local brick = {
+                x = 223 - (square_size + j * (brick_width)) - shift_x,
+                y = 136 - (i*5) - zoom_y,
+                width = (brick_width - 1),
+                height = 4,
+                color = i + 1
+            }            
+            table.insert(bricks, brick)
+        end
+    
+    end
+    -- Lado direito
+    
+    brick_count_width = 7
+    brick_count_height = 6
+    
+    for i = 0, brick_count_height do
+        for j = 0, brick_count_width do
+            local brick = {
+                x = 227 - (i*5) - shift_x,
+                y = square_size + j * (brick_width),
+                width = 4,
+                height = brick_width - 1,
+                color = i + 1
+            }
+            table.insert(bricks, brick)
+        end
+    end
+
+    remaining_time = 1000
+
+    track = 0
+end
+function input()
+    local sx = paddle.speed.x
+    local sy = paddle.speed.y
+    local smax = paddle.speed.max
+
+    -- Move up
+    if btn(0) then
+        if sy > -smax then
+            sy = sy - 2
+
+        else
+            sy = -smax
+
+        end	 
+    end
+
+    -- Move down
+    if btn(1) then
+        if sy < smax then
+            sy = sy + 2
+
+        else
+            sy = smax
+
+        end	 
+    end
+
+    -- Move to left
+    if btn(2) then
+        if sx > -smax then
+            sx = sx - 2
+
+        else
+            sx = -smax
+
+        end	 
+    end
+
+    -- Move to right
+    if btn(3) then
+        if sx < smax then
+            sx = sx + 2
+            
+        else
+            sx = smax
+
+        end
+    end
+
+    -- Deactived ball
+    if ball.deactive then
+        if btn(6) then
+            ball.speed.x = math.floor(math.random()) * 2 - 1
+            ball.speed.y = -1.5
+            ball.deactive = false
+        end
+    else
+        -- Anti-clockwise rotate
+        if btn(4) then
+            paddle.angle = (paddle.angle + math.pi / 16) % math.pi
+        end
+
+        -- Clockwise rotate
+        if btn(5) then
+            paddle.angle = (paddle.angle - math.pi / 16) % math.pi
+        end
+    end
+
+    -- Use powerup
+    if btn(7) and player.powerup_available then
+        use_powerup()
+        player.powerup_available = false
+    end
+
+    paddle.speed.x = sx
+    paddle.speed.y = sy
+    paddle.speed.max = smax
+end
+
+function use_powerup()
+    -- Explode in a X pattern
+    if player.powerup.name == "xbox" then
+        local x1 = ball.x - 21
+        local y1 = ball.y - 21
+        local x2 = ball.x + 21
+        local y2 = ball.y + 21
+
+        local l1 = {x1, y1, x2, y2}
+        local l2 = {x1, y2, x2, y1}
+  
+        for i, brick in pairs(bricks) do
+            local x = brick.x
+            local y = brick.y
+            local l3 = {x - 5, y - 5, x + 5, y + 5}
+            local l4 = {x + 5, y - 5, x - 5, y + 5}
+
+            if line_intersection(l4, l1) or line_intersection(l3, l2) then
+                bricks[i] = nil
+            end
+        end
+
+    -- Slows down time
+    elseif player.powerup.name == "sanic" then
+        ball.speed.x = ball.speed.x / 2
+        ball.speed.y = ball.speed.y / 2
+
+    -- Cuts whole row/column
+    elseif player.powerup.name == "stab" then    
+        for i, brick in pairs(bricks) do
+            local x = brick.x
+            local y = brick.y
+
+            if (x > ball.x - 5 and x < ball.x + 5) or (y > ball.y - 5 and y < ball.y + 5) then
+                bricks[i] = nil
+            
+            end
+        end
+
+    -- Explode in a square pattern
+    elseif player.powerup.name == "creeper" then
+        local r = 21
+
+        for i, brick in pairs(bricks) do
+            local x = brick.x
+            local y = brick.y
+
+            if x < ball.x + r and x > ball.x - r and y < ball.y + r and y > ball.y - r then
+                bricks[i] = nil
+            end
+        end
+
+    -- Gives one extra life
+    elseif player.powerup.name == "sus" then
+        player.lives = player.lives + 2
+
+    -- Increases paddle size
+    elseif player.powerup.name == "help" then
+        paddle.width = paddle.width + 10
+    end
+end
+
+HUD = {
+	screen = "start",
+	animation_speed = 4
+}
+
+function screen_manager()
+    if HUD.screen == "start"  then
+		start()
+	end	
+	
+	if HUD.screen == "start animation"  then
+		start_animation()
+	end
+	
+	if HUD.screen == "character select" then
+		character = character_select()
+
+		if character ~= nil then
+			init(character)
+			HUD.screen = "play"
+			music(0)
+		end
+	end
+	
+	if HUD.screen == "game over" then
+		game_over()
+		for k = 0, 7 do
+			if btnp(k) then
+				HUD.screen = "character select"
+				music(1)
+				break
+			end
+		end
+	end
+
+	if HUD.screen == "win" then
+		win()
+		for k = 0, 7 do
+			if btnp(k) then
+				HUD.screen = "start"
+				break
+			end
+		end
+	end
+
+	if HUD.screen == "play" then
+		input()
+    	if update() then HUD.screen = "win" end
+    	if collisions() then HUD.screen = "game over" end
+    	draw()
+		gui()
+	end
+end
+
+function start()
+    map(0, 0)
+	print("START", 210, 88, 4)
+	print("Press any key", 165, 96, 12)
+		
+	for k = 0, 7 do
+		if btnp(k) then
+			animation_start = time()//100*HUD.animation_speed
+			HUD.screen = "start animation"
+			break
+		end
+	end
+end
+
+function start_animation()
+    map(0, 0)
+    print("START", 210, 88, 4)
+    
+	local x = 80
+    local y = 128
+    
+	t = time()//100*HUD.animation_speed
+    
+	if play_start_animation(x, y) then HUD.screen = "character select" end
+end
+
+function play_start_animation(x, y)
+	local diff = t - animation_start
+	
+	if x + diff > 228 then
+		return true -- returns true when animation ends
+	end
+	
+	if x + diff < 160 then
+		spr(251, x + diff, y - diff)
+	else 
+		spr(251, x + diff, y - 120 + diff//2)
+	end
+end
+
+function game_over()
+    print("Game_Over", alignment.middle_align - 32, 0, 12, false, 2)
+	
+	generate_sprites(depressed, true)
+	
+	print(depressed.text, 24, depressed.y + 64 + 8, 12)
+
+	print("Press any key", 24, depressed.y + 64 + 24, 12)
+end
+
+function win()
+	print("Final_Score", alignment.middle_align - 40, 0, 12, false, 2)
+	
+	print(player.score, alignment.middle_align, 16, 12, false, 2)
+	
+	generate_sprites(hype, true)
+
+	print(hype.text, alignment.middle_align - 24, hype.y + 64 + 16, 12)
+end
+
+function gui()
+	-- upper left corner
+	generate_sprites(player.powerup, false, 0, 0)
+
+	-- upper right corner
+	for l = 0, player.lives//2 - 1 do
+		generate_sprites(heart, false, heart.x + l*9, heart.y)
+	end
+
+	-- lower left corner
+	print("SCORE", 4, 110, 12)
+	print(player.score, 4, 124, 12)
+
+	-- lower right corner
+	print("POWER\nUP", 240 - 36, 110 ,12)
+	if player.powerup_available then
+		print("PRESS\nS!!!", 240 - 36, 124, 12)
+	end
+end
+function update()
+    local px = paddle.x
+    local py = paddle.y
+    local psx = paddle.speed.x
+    local psy = paddle.speed.y
+    local smax = paddle.speed.max
+    local x = paddle.x
+    local y = paddle.y
+    local h = paddle.height
+    local w = paddle.width
+    local angle = paddle.angle
+
+    -- Update paddle corners coordinates
+    paddle.x1, paddle.y1 = rotate(-w, h, angle)
+    paddle.x1, paddle.y1 = translate(paddle.x1, paddle.y1, x, y)
+
+    paddle.x2, paddle.y2 = rotate(-w, -h, angle)
+    paddle.x2, paddle.y2 = translate(paddle.x2, paddle.y2, x, y)
+    
+    paddle.x3, paddle.y3 = rotate(w, h, angle)
+    paddle.x3, paddle.y3 = translate(paddle.x3, paddle.y3, x, y)
+
+    paddle.x4, paddle.y4 = rotate(w, -h, angle)
+    paddle.x4, paddle.y4 = translate(paddle.x4, paddle.y4, x, y)
+
+    ball.x1 = ball.x
+    ball.y1 = ball.y
+
+    ball.x2 = ball.x + ball.width
+    ball.y2 = ball.y
+
+    ball.x3 = ball.x 
+    ball.y3 = ball.y + ball.height
+
+    ball.x4 = ball.x + ball.width
+    ball.y4 = ball.y + ball.height
+
+    -- Update paddle position
+    px = px + psx
+    py = py + psy
+
+    if px < 45 then
+        px = 45
+
+    elseif px > 190 then
+        px = 190
+
+    end
+
+    if py < 40 then
+        py = 40
+
+    elseif py > 104 then
+        py = 104
+
+    end
+
+    -- Reduce paddle speed
+    if psx ~= 0 then
+        if psx > 0 then
+            psx = psx - 1
+
+        else
+            psx = psx + 1
+
+        end
+    end
+
+    if psy ~= 0 then
+        if psy > 0 then
+            psy = psy - 1
+
+        else
+            psy = psy + 1
+
+        end
+    end
+
+    -- Update ball position
+    ball.x = ball.x + ball.speed.x
+    ball.y = ball.y + ball.speed.y
+
+    -- Check max ball speed
+    if ball.speed.x > ball.speed.max then
+        ball.speed.x = ball.speed.max
+    end
+
+    if ball.speed.y > ball.speed.max then
+        ball.speed.y = ball.speed.max
+    end
+
+    -- Deactived ball
+    if ball.deactive then
+        ball.x = paddle.x + (paddle.width / 2) - 1.5
+        ball.y = paddle.y - 6
+    end
+
+    paddle.x = px
+    paddle.y = py
+    paddle.speed.x = psx
+    paddle.speed.y = psy
+    paddle.speed.max = smax
+
+    remaining_time = remaining_time - 0.01
+    player.score = math.floor(remaining_time * (player.lives + 1))
+    
+    -- Generate powerup
+    random = math.random(0, 100)
+    if random < player.powerup_frequency then player.powerup_available = true end
+
+    return game_ended()
+end
+
+function game_ended()
+    for i, brick in pairs(bricks) do
+        if brick ~= nil then
+            return false
+        end
+    end
+
+    return true
+end
 -- title:  Breakin
 -- author: TriceraTOP 
 -- desc:   Game developed for Retro Jam 2021
 -- script: lua
 
-require "screens"
 
 music(1)
 
