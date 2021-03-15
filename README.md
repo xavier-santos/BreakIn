@@ -1,37 +1,48 @@
 # Break_In
 
-Game developed for Retro Jam 2021
-
 <p align="center">
-  <a href="#key-features">Key Features</a>
-  <a href="#how-to-use">How To Play</a>
-  <a href="#download">Download</a>
-  <a href="#contributors">Contributors</a>
-  <a href="#related">Related</a>
+  <img src="img/CharacterSelection.png" width="370">
+  <img src="img/Gameplay.png" width="370"> 
 </p>
 
-## Key Features
-A different take on the popular game Breakout with 360? fields of blocks surrounding and character powerups!
- Now your reactions have to be even quicker to suceed in this challenging game, breaking all the blocks without letting your ball be caught by the menacing black hole!
+<p align="center">
+  <img src="img/GameOver.png" width="370">
+  <img src="img/Win.png" width="370"> 
+</p>
+
+This game was developed for the fourth edition of the [Retro Jam](https://itch.io/jam/retrojam2021/entries) event organized by the IEEE University of Porto Student Branch. 
+
+It was developed during a 48 hour period for the [TIC-80](https://tic80.com/) fantasy console.
+
+**Theme:** Reaction
+
+[itch.io entry](https://educorreia932.itch.io/breakin)
+
+## Concept
+
+A different take on the popular game *Breakout* with 360º fields of blocks surrounding and character powerups!
+
+Now your reactions have to be even quicker to suceed in this challenging game, breaking all the blocks without letting your ball be caught by the menacing black hole!
  
-* Character selection 
-* Paddle rotation
-* Black hole
-* 360º Walls
-* Powerups
+## Controls
 
-## How To Play
+### Menu
 
-* Arrows - Move paddle in all directions
-* A - Release ball
-* Z - Confirm / Rotate paddle anti-clockwise
-* X - Rotate paddle clockwise
-* S - Use powerup
-* Esc - Go back
-## Download
-https://educorreia932.itch.io/breakin
-## Contributors
+- **Arrows -** Select
+- **Z -** Confirm
+- **Esc -** Go back
 
-## Related
+### Gameplay
 
-[Four-Corners](https://github.com/Educorreia932/Four-Corners) - Game made for OctoJam 7 / Finish Your Game Jam
+- **Arrows -** Move paddle in all directions
+- **A -** Release ball
+- **Z -** Rotate paddle anti-clockwise
+- **X -** Rotate paddle clockwise
+- **S -** Use powerup
+
+## Team
+
+- Bárbara Pinto ([@MadDinosaur](https://github.com/MadDinosaur)) - art, code
+- Eduardo Correia ([@educorreia932](https://github.com/Educorreia932)) - code
+- Manuel Silva ([@ManelMCCS](https://github.com/ManelMCCS)) - music, code
+- Xavier Santos ([@xavier-santos](https://github.com/xavier-santos)) - music, code
