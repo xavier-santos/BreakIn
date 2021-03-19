@@ -46,5 +46,5 @@ Now your reactions have to be even quicker to suceed in this challenging game, b
 
 - Bárbara Pinto ([@MadDinosaur](https://github.com/MadDinosaur)) - art, code
 - Eduardo Correia ([@educorreia932](https://github.com/Educorreia932)) - code
-- Manuel Silva ([@ManelMCCS](https://github.com/ManelMCCS)) - music, code
-- Xavier Santos ([@xavier-santos](https://github.com/xavier-santos)) - music, code
+- Manuel Cerqueira da Silva ([@ManelMCCS](https://github.com/ManelMCCS)) - music, code
+- Miguel Xavier Santos ([@xavier-santos](https://github.com/xavier-santos)) - music, code
