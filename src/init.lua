@@ -1,3 +1,6 @@
+-- Display: 240 * 136
+-- 240 = 34 + 1 + (8+1) * 19 + 34
+
 function init(character)
     -- Player
     player = {
